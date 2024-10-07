@@ -1,0 +1,42 @@
+<?php
+// Include the database configuration file
+include 'core/dbConfig.php';
+
+// SQL query to insert a new employee record into the employees table
+$sql = "INSERT INTO employees (first_name, last_name, email, phone, hire_date, position) 
+        VALUES (:first_name, :last_name, :email, :phone, :hire_date, :position)";
+
+try {
+    // Prepare the SQL statement
+    $stmt = $pdo->prepare($sql);
+
+    // Bind the values to the parameters
+    $stmt->bindParam(':first_name', $first_name);
+    $stmt->bindParam(':last_name', $last_name);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':hire_date', $hire_date);
+    $stmt->bindParam(':position', $position);
+
+    // Set the values for the new record
+    $first_name = "Jane";
+    $last_name = "Doe";
+    $email = "jane.doe@example.com";
+    $phone = "0987654321";
+    $hire_date = date('Y-m-d'); // Current date
+    $position = "Manager";
+
+    // Execute the statement to insert the record
+    $stmt->execute();
+
+    // Confirm the record has been inserted
+    echo "New employee record inserted successfully!";
+    
+} catch (PDOException $e) {
+    // Handle any errors
+    echo "Error: " . $e->getMessage();
+}
+
+// Close the connection
+$pdo = null;
+?>

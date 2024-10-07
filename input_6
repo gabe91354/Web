@@ -1,0 +1,34 @@
+<?php
+// Include the database configuration file
+require_once 'dbConfig.php';
+
+// SQL Delete statement
+$sql = "DELETE FROM employees WHERE first_name = :first_name AND last_name = :last_name";
+
+try {
+    // Prepare the SQL statement
+    $stmt = $pdo->prepare($sql);
+
+    // Bind the values to the placeholders
+    $stmt->bindParam(':first_name', $first_name);
+    $stmt->bindParam(':last_name', $last_name);
+
+    // Funny sample data for deletion
+    $first_name = "Captain";
+    $last_name = "Banana";
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        if ($stmt->rowCount() > 0) {
+            echo "Captain Banana has been peeled from the team!";
+        } else {
+            echo "Captain Banana was not found. Did he slip away already?";
+        }
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+// Close the connection
+$pdo = null;
+?>

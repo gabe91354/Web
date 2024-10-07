@@ -1,0 +1,34 @@
+<?php
+// Include the database configuration file
+require_once 'dbConfig.php';
+
+// Prepare the SQL statement to select all employees
+$sqlAllEmployees = "SELECT id, first_name, last_name, email, phone FROM employees";
+
+try {
+    // Prepare the statement
+    $stmtAllEmployees = $pdo->prepare($sqlAllEmployees);
+    
+    // Execute the statement
+    $stmtAllEmployees->execute();
+    
+    // Fetch all results as an associative array
+    $employees = $stmtAllEmployees->fetchAll(PDO::FETCH_ASSOC);
+
+    // Check if there are any employees to display
+    if ($employees) {
+        // Display all employee details using print_r() within <pre> tags
+        echo "<h1>All Employees</h1>";
+        echo "<pre>";
+        print_r($employees);
+        echo "</pre>";
+    } else {
+        echo "No employees found.";
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+// Close the connection
+$pdo = null;
+?>

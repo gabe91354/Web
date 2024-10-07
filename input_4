@@ -1,0 +1,41 @@
+<?php
+// Include the database configuration file
+include 'core/dbConfig.php';
+
+// Prepare the SQL statement to select a single employee by id
+$sql = "SELECT id, first_name, last_name, email, phone FROM employees WHERE id = :id";
+
+try {
+    // Prepare the statement
+    $stmt = $pdo->prepare($sql);
+
+    // Bind the id parameter
+    $stmt->bindParam(':id', $id);
+    
+    // Define the id to fetch
+    $id = 1;  // Example: Fetching the employee with id = 1
+
+    // Execute the statement
+    $stmt->execute();
+    
+    // Fetch a single row as an associative array
+    $employee = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Display the employee information
+    echo "<h1>Single Employee</h1>";
+    echo "<pre>";
+    print_r($employee);
+    echo "</pre>";
+    
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+// Close the connection
+$pdo = null;
+?>
+}
+
+// Close the connection
+$pdo = null;
+?>
